@@ -3,7 +3,8 @@ const router = express.Router();
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const auth = require('../middleware/authMiddleware');
+const authMiddleware = require('../middleware/authMiddleware'); // ✅ exact match
+
 
 // 🔐 JWT secret
 const JWT_SECRET = process.env.JWT_SECRET || 'secret123';
