@@ -3,8 +3,7 @@ const router = express.Router();
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const authMiddleware = require('../middleware/authMiddleware'); // ✅ exact match
-
+const authMiddleware = require('../middleware/authMiddleware'); // ✅ exact name & path
 
 // 🔐 JWT secret
 const JWT_SECRET = process.env.JWT_SECRET || 'secret123';
@@ -44,7 +43,7 @@ router.post('/login', async (req, res) => {
 });
 
 // GET /api/auth/profile
-router.get('/profile', auth, async (req, res) => {
+router.get('/profile', authMiddleware, async (req, res) => { // ✅ changed from "auth" to "authMiddleware"
   try {
     const user = await User.findById(req.user.id).select('-password');
     if (!user) {
@@ -56,6 +55,5 @@ router.get('/profile', auth, async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch profile' });
   }
 });
-
 
 module.exports = router;
